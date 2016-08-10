@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace TrafficWebScrape.Traffic
 {
@@ -7,7 +8,10 @@ namespace TrafficWebScrape.Traffic
     {
         private string location;
         private string status;
-        private string information;
+        private string timeToClear;
+        private string returnToNormal;
+        private string lanesClosed;
+        private string reason;
 
         private string title;
         private string summary;
@@ -18,19 +22,24 @@ namespace TrafficWebScrape.Traffic
             Summary = summary;
         }
 
-        public Event(string motorway, string status, string information)
+        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason)
         {
-            Location = motorway;
+            Location = location;
             Status = status;
-            Information = information;
+            TimeToClear = timeToClear;
+            ReturnToNormal = returnToNormal;
+            LanesClosed = lanesClosed;
+            Reason = reason;
         }
 
         public void Process()
         {
-            //Console.WriteLine(Title);
-            //Console.WriteLine(Summary);
-
-            Status = ProcessRegex(@"(Status.*\n)");
+            Status = ProcessRegex(@"(Status.*.)").Replace("Status : ", "").Trim();
+            Location = ProcessRegex(@"(Location.*.)").Replace("Location : ", "").Trim();
+            TimeToClear = ProcessRegex(@"(Time To Clear.*.)").Replace("Time To Clear : ", "").Trim();
+            ReturnToNormal = ProcessRegex(@"(Return To Normal.*.)").Replace("Return To Normal : ", "").Trim();
+            LanesClosed = ProcessRegex(@"(Lanes Closed.*.)").Replace("Lanes Closed : ", "").Trim();
+            Reason = ProcessRegex(@"(Reason.*.)").Replace("Reason : ", "").Trim();
         }
 
         private string ProcessRegex(string regexString)
@@ -50,9 +59,9 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
-                if (value == null)
+                if (value == null || value == "")
                 {
-                    value = "Motorway unknown";
+                    value = "Unknown";
                 }
 
                 location = value;
@@ -68,30 +77,12 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
-                if (value == null)
+                if (value == null || value == "")
                 {
-                    value = "Status unknown";
+                    value = "Unknown";
                 }
 
                 status = value;
-            }
-        }
-
-        public string Information
-        {
-            get
-            {
-                return information;
-            }
-
-            set
-            {
-                if (value == null)
-                {
-                    value = "No information";
-                }
-
-                information = value;
             }
         }
 
@@ -119,6 +110,104 @@ namespace TrafficWebScrape.Traffic
             {
                 summary = value;
             }
+        }
+
+        public string TimeToClear
+        {
+            get
+            {
+                return timeToClear;
+            }
+
+            set
+            {
+                if (value == null || value == "")
+                {
+                    value = "Unknown";
+                }
+
+                timeToClear = value;
+            }
+        }
+
+        public string ReturnToNormal
+        {
+            get
+            {
+                return returnToNormal;
+            }
+
+            set
+            {
+                if (value == null || value == "")
+                {
+                    value = "Unknown";
+                }
+
+                returnToNormal = value;
+            }
+        }
+
+        public string LanesClosed
+        {
+            get
+            {
+                return lanesClosed;
+            }
+
+            set
+            {
+                if (value == null || value == "")
+                {
+                    value = "Unknown";
+                }
+
+                lanesClosed = value;
+            }
+        }
+
+        public string Reason
+        {
+            get
+            {
+                return reason;
+            }
+
+            set
+            {
+                if (value == null || value == "")
+                {
+                    value = "Unknown";
+                }
+
+                reason = value;
+            }
+        }
+
+        public new string ToString
+        {
+            get
+            {
+                return String.Format("Location: {0}, Status: {1}, Time To Clear: {2}, Return To Normal: {3}, Lanes Closed: {4}, Reason {5}", Location, Status, TimeToClear, ReturnToNormal, LanesClosed, Reason);
+            }
+        }
+
+        public DataGridViewRow GetDataGridViewRow(DataGridView dgv)
+        {
+            //DataGridViewRow row = (DataGridViewRow)dgv.RowTemplate.Clone();
+            int rowId = dgv.Rows.Add();
+
+            // Grab the new row!
+            DataGridViewRow row = dgv.Rows[rowId];
+
+            row.Cells[0].Value = Location;
+            row.Cells[1].Value = Status;
+            row.Cells[2].Value = TimeToClear;
+            row.Cells[3].Value = ReturnToNormal;
+            row.Cells[4].Value = LanesClosed;
+            row.Cells[5].Value = Reason;
+
+            return row;
         }
     }
 }

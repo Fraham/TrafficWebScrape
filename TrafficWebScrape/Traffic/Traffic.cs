@@ -7,6 +7,7 @@ using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace TrafficWebScrape.Traffic
@@ -39,6 +40,7 @@ namespace TrafficWebScrape.Traffic
                 {
                     Event newEvent = new Event(item.Title.Text, item.Summary.Text);
                     newEvent.Process();
+                    Console.WriteLine(newEvent.ToString);
                     Events.Add(newEvent);
                 }
             }
@@ -56,7 +58,7 @@ namespace TrafficWebScrape.Traffic
                 xml = Encoding.UTF8.GetString(webClient.DownloadData(TrafficURL));
             }
             xml = xml.Replace("BST", "GMT");
-            byte[] bytes = System.Text.UTF8Encoding.ASCII.GetBytes(xml);
+            byte[] bytes = Encoding.ASCII.GetBytes(xml);
             XmlReader reader = XmlReader.Create(new MemoryStream(bytes));
             SyndicationFeed feed = SyndicationFeed.Load(reader);
             reader.Close();
@@ -93,6 +95,34 @@ namespace TrafficWebScrape.Traffic
             {
                 trafficURL = value;
             }
+        }
+
+        public new string ToString
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach(Event e in events)
+                {
+                    sb.Append(e.ToString);
+                    sb.Append(System.Environment.NewLine);
+                }
+
+                return sb.ToString();
+            }
+        }
+
+        public List<DataGridViewRow> GetDataGridViewRows(DataGridView dgv)
+        {
+            List<DataGridViewRow> rows = new List<DataGridViewRow>();
+
+            foreach (Event e in Events)
+            {
+                rows.Add(e.GetDataGridViewRow(dgv));
+            }
+
+            return rows;
         }
     }
 }

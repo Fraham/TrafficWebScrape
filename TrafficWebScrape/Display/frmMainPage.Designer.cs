@@ -28,21 +28,96 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.dgvTraffic = new System.Windows.Forms.DataGridView();
+            this.clmLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmTimeToClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmReturnToNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmLanesClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTraffic)).BeginInit();
             this.SuspendLayout();
+            // 
+            // dgvTraffic
+            // 
+            this.dgvTraffic.AllowUserToAddRows = false;
+            this.dgvTraffic.AllowUserToDeleteRows = false;
+            this.dgvTraffic.AllowUserToOrderColumns = true;
+            this.dgvTraffic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvTraffic.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTraffic.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clmLocation,
+            this.clmStatus,
+            this.clmTimeToClear,
+            this.clmReturnToNormal,
+            this.clmLanesClosed,
+            this.clmReason});
+            this.dgvTraffic.Location = new System.Drawing.Point(27, 26);
+            this.dgvTraffic.Name = "dgvTraffic";
+            this.dgvTraffic.ReadOnly = true;
+            this.dgvTraffic.Size = new System.Drawing.Size(954, 519);
+            this.dgvTraffic.TabIndex = 1;
+            // 
+            // clmLocation
+            // 
+            this.clmLocation.HeaderText = "Location";
+            this.clmLocation.Name = "clmLocation";
+            this.clmLocation.ReadOnly = true;
+            // 
+            // clmStatus
+            // 
+            this.clmStatus.HeaderText = "Status";
+            this.clmStatus.Name = "clmStatus";
+            this.clmStatus.ReadOnly = true;
+            // 
+            // clmTimeToClear
+            // 
+            this.clmTimeToClear.HeaderText = "Time To Clear";
+            this.clmTimeToClear.Name = "clmTimeToClear";
+            this.clmTimeToClear.ReadOnly = true;
+            // 
+            // clmReturnToNormal
+            // 
+            this.clmReturnToNormal.HeaderText = "Return To Normal";
+            this.clmReturnToNormal.Name = "clmReturnToNormal";
+            this.clmReturnToNormal.ReadOnly = true;
+            // 
+            // clmLanesClosed
+            // 
+            this.clmLanesClosed.HeaderText = "Lanes Closed";
+            this.clmLanesClosed.Name = "clmLanesClosed";
+            this.clmLanesClosed.ReadOnly = true;
+            // 
+            // clmReason
+            // 
+            this.clmReason.HeaderText = "Reason";
+            this.clmReason.Name = "clmReason";
+            this.clmReason.ReadOnly = true;
             // 
             // frmMainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(993, 557);
+            this.Controls.Add(this.dgvTraffic);
             this.Name = "frmMainPage";
             this.Text = "Traffic Analysis";
             this.Load += new System.EventHandler(this.frmMainPage_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTraffic)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+        private System.Windows.Forms.DataGridView dgvTraffic;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmLocation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmTimeToClear;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmReturnToNormal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmLanesClosed;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmReason;
     }
 }
 

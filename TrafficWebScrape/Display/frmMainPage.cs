@@ -24,6 +24,11 @@ namespace TrafficWebScrape.Display
             Traffic.Traffic traffic = new Traffic.Traffic();
 
             traffic.Process();
+
+            foreach (DataGridViewRow dgvr in traffic.GetDataGridViewRows(dgvTraffic))
+            {
+                //dgvTraffic.Rows.Add(dgvr);
+            }            
         }
     }
 }
