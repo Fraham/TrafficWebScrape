@@ -30,12 +30,15 @@ namespace TrafficWebScrape.Traffic
             //Console.WriteLine(Title);
             //Console.WriteLine(Summary);
 
-            Regex regex = new Regex(@"(Status.*\n)");
+            Status = ProcessRegex(@"(Status.*\n)");
+        }
+
+        private string ProcessRegex(string regexString)
+        {
+            Regex regex = new Regex(regexString);
             Match match = regex.Match(Summary);
-            if (match.Success)
-            {
-                Console.WriteLine(match.Value);
-            }
+
+            return match.Success ? match.Value : "";
         }
 
         public string Location
