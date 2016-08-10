@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "frmMainPage";
             this.Text = "Traffic Analysis";
+            this.Load += new System.EventHandler(this.frmMainPage_Load);
             this.ResumeLayout(false);
 
         }

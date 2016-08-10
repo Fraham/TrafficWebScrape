@@ -1,23 +1,48 @@
-﻿namespace TrafficWebScrape.Traffic
+﻿using System;
+using System.Text.RegularExpressions;
+
+namespace TrafficWebScrape.Traffic
 {
     class Event
     {
-        private string motorway;
+        private string location;
         private string status;
         private string information;
 
+        private string title;
+        private string summary;
+
+        public Event(string title, string summary)
+        {
+            Title = title;
+            Summary = summary;
+        }
+
         public Event(string motorway, string status, string information)
         {
-            Motorway = motorway;
+            Location = motorway;
             Status = status;
             Information = information;
         }
 
-        public string Motorway
+        public void Process()
+        {
+            //Console.WriteLine(Title);
+            //Console.WriteLine(Summary);
+
+            Regex regex = new Regex(@"(Status.*\n)");
+            Match match = regex.Match(Summary);
+            if (match.Success)
+            {
+                Console.WriteLine(match.Value);
+            }
+        }
+
+        public string Location
         {
             get
             {
-                return motorway;
+                return location;
             }
 
             set
@@ -27,7 +52,7 @@
                     value = "Motorway unknown";
                 }
 
-                motorway = value;
+                location = value;
             }
         }
 
@@ -64,6 +89,32 @@
                 }
 
                 information = value;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+
+            set
+            {
+                title = value;
+            }
+        }
+
+        public string Summary
+        {
+            get
+            {
+                return summary;
+            }
+
+            set
+            {
+                summary = value;
             }
         }
     }

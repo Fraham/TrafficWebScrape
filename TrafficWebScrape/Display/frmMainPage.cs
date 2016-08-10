@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TrafficWebScrape.Traffic;
+
 
 namespace TrafficWebScrape.Display
 {
@@ -15,6 +17,13 @@ namespace TrafficWebScrape.Display
         public frmMainPage()
         {
             InitializeComponent();
+        }
+
+        private void frmMainPage_Load(object sender, EventArgs e)
+        {
+            Traffic.Traffic traffic = new Traffic.Traffic();
+
+            traffic.Process();
         }
     }
 }
