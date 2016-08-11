@@ -12,14 +12,16 @@ namespace TrafficWebScrape.Traffic
         private string returnToNormal;
         private string lanesClosed;
         private string reason;
+        private string delay;
+
         private string road;
         private string startClear;
         private string endClear;
         private string startNormal;
-        private string endNormal;
-        private string delay;
-
+        private string endNormal;        
         private int delayedMinutes;
+        private string direction;
+        private string areaEffected;
 
         private string title;
         private string summary;
@@ -30,7 +32,7 @@ namespace TrafficWebScrape.Traffic
             Summary = summary;
         }
 
-        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, string road, string startClear, string endClear, string startNormal, string endNormal, string delay)
+        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, string road, string startClear, string endClear, string startNormal, string endNormal, string delay, int delayedMinutes, string direction)
         {
             Location = location;
             Status = status;
@@ -44,22 +46,34 @@ namespace TrafficWebScrape.Traffic
             StartNormal = startNormal;
             EndNormal = endNormal;
             Delay = delay;
+            DelayedMinutes = delayedMinutes;
+            Direction = direction;
         }
 
+        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, string delay)
+        {
+            Location = location;
+            Status = status;
+            TimeToClear = timeToClear;
+            ReturnToNormal = returnToNormal;
+            LanesClosed = lanesClosed;
+            Reason = reason;
+            Delay = delay;
+        }
 
         public void Process()
         {
             //Console.WriteLine(Summary);
-            Status = ProcessRegex(@"Status : (.*)").Trim();
-            Location = ProcessRegex(@"Location : The (.*)").Trim();
-            TimeToClear = ProcessRegex(@"Time To Clear : (.*)").Trim();
-            ReturnToNormal = ProcessRegex(@"Return To Normal : (.*)").Trim();
-            LanesClosed = ProcessRegex(@"Lanes Closed : (.*)").Trim();
-            Reason = ProcessRegex(@"Reason : (.*)").Trim();
-            Delay = ProcessRegex(@"Delay : (.*)").Trim();
+            Status = ProcessRegex(@"Status : (.*)", 1).Trim();
+            Location = ProcessRegex(@"Location : The (.*)", 1).Trim();
+            TimeToClear = ProcessRegex(@"Time To Clear : (.*)", 1).Trim();
+            ReturnToNormal = ProcessRegex(@"Return To Normal : (.*)", 1).Trim();
+            LanesClosed = ProcessRegex(@"Lanes Closed : (.*)", 1).Trim();
+            Reason = ProcessRegex(@"Reason : (.*)", 1).Trim();
+            Delay = ProcessRegex(@"Delay : (.*)", 1).Trim();
         }
 
-        private string ProcessRegex(string regexString, string matchingWith, int index)
+        private string ProcessRegex(string regexString, int group, string matchingWith, int index)
         {
             Regex regex = new Regex(regexString);
             MatchCollection match = regex.Matches(matchingWith);
@@ -69,23 +83,17 @@ namespace TrafficWebScrape.Traffic
                 return "";
             }
 
-            return match[index].Success ? match[index].Value : "";
+            return match[index].Groups[group].Success ? match[index].Groups[group].Value : "";
         }
 
-        private string ProcessRegex(string regexString, string matchingWith)
+        private string ProcessRegex(string regexString, int group, string matchingWith)
         {
-            Regex regex = new Regex(regexString);
-            Match match = regex.Match(matchingWith);
-
-            return match.Success ? match.Value : "";
+            return ProcessRegex(regexString, group, matchingWith, 0);
         }
 
-        private string ProcessRegex(string regexString)
+        private string ProcessRegex(string regexString, int group)
         {
-            Regex regex = new Regex(regexString);
-            Match match = regex.Match(Summary);
-
-            return match.Groups[1].Success ? match.Groups[1].Value : "";
+            return ProcessRegex(regexString, group, summary);
         }
 
         public string Location
@@ -104,7 +112,9 @@ namespace TrafficWebScrape.Traffic
 
                 location = value;
 
-                Road = ProcessRegex(@"\b[MAa-z0-9]+\b", Location);
+                Road = ProcessRegex(@"\b[MAa-z0-9]+\b", 0, Location);
+                Direction = ProcessRegex(@"(eastbound|westbound|northbound|southbound|clockwise|anticlockwise)", 0, Location);
+                AreaEffected = ProcessRegex(@"\b[MAa-z0-9]+\b \b[a-z0-9]+\b (.*) ", 1, Location);
             }
         }
 
@@ -168,8 +178,8 @@ namespace TrafficWebScrape.Traffic
 
                 timeToClear = value;
 
-                StartClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 0);
-                EndClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 1);
+                StartClear = ProcessRegex(@"([0-9]+:[0-9]+)", 0, TimeToClear, 0);
+                EndClear = ProcessRegex(@"([0-9]+:[0-9]+)", 0, TimeToClear, 1);
             }
         }
 
@@ -189,8 +199,8 @@ namespace TrafficWebScrape.Traffic
 
                 returnToNormal = value;
 
-                StartNormal = ProcessRegex(@"([0-9]+:[0-9]+)", ReturnToNormal, 0);
-                EndNormal = ProcessRegex(@"([0-9]+:[0-9]+)", ReturnToNormal, 1);
+                StartNormal = ProcessRegex(@"([0-9]+:[0-9]+)", 0, ReturnToNormal, 0);
+                EndNormal = ProcessRegex(@"([0-9]+:[0-9]+)", 0, ReturnToNormal, 1);
             }
         }
 
@@ -336,6 +346,7 @@ namespace TrafficWebScrape.Traffic
                 {
                     value = "Unknown";
                 }
+
                 delay = value;
 
                 if (!Delay.Equals("Unknown"))
@@ -345,24 +356,24 @@ namespace TrafficWebScrape.Traffic
 
                     if (match.Success)
                     {
-                        if (match.Groups[1].Success)
+                        if (match.Groups[2].Success)
                         {
                             try
                             {
-                                DelayedMinutes = Int32.Parse(match.Groups[2].Value);
+                                DelayedMinutes = int.Parse(match.Groups[2].Value);
                             }
                             catch (FormatException fe)
                             {
                                 DelayedMinutes = 0;
                             }
                         }
-                        else if (match.Groups[3].Success)
+                        else if (match.Groups[4].Success && match.Groups[6].Success)
                         {
                             int minutes = 0;
 
                             try
                             {
-                                minutes = Int32.Parse(match.Groups[4].Value) * 60;
+                                minutes = int.Parse(match.Groups[4].Value) * 60;
                             }
                             catch (FormatException fe)
                             {
@@ -385,6 +396,10 @@ namespace TrafficWebScrape.Traffic
                             DelayedMinutes = minutes;
                         }
                     }
+                    else
+                    {
+                        DelayedMinutes = 0;
+                    }                    
                 }
             }
         }
@@ -402,6 +417,42 @@ namespace TrafficWebScrape.Traffic
             }
         }
 
+        public string Direction
+        {
+            get
+            {
+                return direction;
+            }
+
+            set
+            {
+                if (value == null || value.Equals(""))
+                {
+                    value = "Unknown";
+                }
+
+                direction = value;
+            }
+        }
+
+        public string AreaEffected
+        {
+            get
+            {
+                return areaEffected;
+            }
+
+            set
+            {
+                if (value == null || value.Equals(""))
+                {
+                    value = "Unknown";
+                }
+
+                areaEffected = value;
+            }
+        }
+
         public DataGridViewRow GetDataGridViewRow(DataGridView dgv)
         {
             int rowId = dgv.Rows.Add();
@@ -410,18 +461,16 @@ namespace TrafficWebScrape.Traffic
             DataGridViewRow row = dgv.Rows[rowId];
 
             row.Cells[0].Value = Road;
-            row.Cells[1].Value = Location;
-            row.Cells[2].Value = Status;
-            row.Cells[3].Value = TimeToClear;
+            row.Cells[1].Value = Direction;
+            row.Cells[2].Value = AreaEffected;
+            row.Cells[3].Value = Status;
             row.Cells[4].Value = StartClear;
             row.Cells[5].Value = EndClear;
-            row.Cells[6].Value = ReturnToNormal;
-            row.Cells[7].Value = StartNormal;
-            row.Cells[8].Value = EndNormal;
-            row.Cells[9].Value = LanesClosed;
-            row.Cells[10].Value = Reason;
-            row.Cells[11].Value = Delay;
-            row.Cells[12].Value = DelayedMinutes;
+            row.Cells[6].Value = StartNormal;
+            row.Cells[7].Value = EndNormal;
+            row.Cells[8].Value = LanesClosed;
+            row.Cells[9].Value = Reason;
+            row.Cells[10].Value = DelayedMinutes;
 
             return row;
         }
@@ -488,6 +537,14 @@ namespace TrafficWebScrape.Traffic
             {
                 return false;
             }
+            if (!Direction.Equals(other.Direction))
+            {
+                return false;
+            }
+            if (!AreaEffected.Equals(other.AreaEffected))
+            {
+                return false;
+            }
 
             return true;
         }
@@ -496,7 +553,6 @@ namespace TrafficWebScrape.Traffic
         public override int GetHashCode()
         {
             // TODO: write your implementation of GetHashCode() here
-            throw new NotImplementedException();
             return base.GetHashCode();
         }
     }

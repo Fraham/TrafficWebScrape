@@ -31,17 +31,15 @@
             this.dgvTraffic = new System.Windows.Forms.DataGridView();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.clmRoad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmDirection = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmAreaAffected = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmTimeToClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmStartClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmEndClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmReturnToNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmStartNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmEndNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmLanesClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmDelay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmDelayedMinutes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTraffic)).BeginInit();
             this.SuspendLayout();
@@ -54,20 +52,19 @@
             this.dgvTraffic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvTraffic.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTraffic.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTraffic.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.clmRoad,
-            this.clmLocation,
+            this.clmDirection,
+            this.clmAreaAffected,
             this.clmStatus,
-            this.clmTimeToClear,
             this.clmStartClear,
             this.clmEndClear,
-            this.clmReturnToNormal,
             this.clmStartNormal,
             this.clmEndNormal,
             this.clmLanesClosed,
             this.clmReason,
-            this.clmDelay,
             this.clmDelayedMinutes});
             this.dgvTraffic.Location = new System.Drawing.Point(27, 45);
             this.dgvTraffic.Name = "dgvTraffic";
@@ -92,23 +89,23 @@
             this.clmRoad.Name = "clmRoad";
             this.clmRoad.ReadOnly = true;
             // 
-            // clmLocation
+            // clmDirection
             // 
-            this.clmLocation.HeaderText = "Location";
-            this.clmLocation.Name = "clmLocation";
-            this.clmLocation.ReadOnly = true;
+            this.clmDirection.HeaderText = "Direction";
+            this.clmDirection.Name = "clmDirection";
+            this.clmDirection.ReadOnly = true;
+            // 
+            // clmAreaAffected
+            // 
+            this.clmAreaAffected.HeaderText = "Area Affected";
+            this.clmAreaAffected.Name = "clmAreaAffected";
+            this.clmAreaAffected.ReadOnly = true;
             // 
             // clmStatus
             // 
             this.clmStatus.HeaderText = "Status";
             this.clmStatus.Name = "clmStatus";
             this.clmStatus.ReadOnly = true;
-            // 
-            // clmTimeToClear
-            // 
-            this.clmTimeToClear.HeaderText = "Time To Clear";
-            this.clmTimeToClear.Name = "clmTimeToClear";
-            this.clmTimeToClear.ReadOnly = true;
             // 
             // clmStartClear
             // 
@@ -121,12 +118,6 @@
             this.clmEndClear.HeaderText = "End Clear";
             this.clmEndClear.Name = "clmEndClear";
             this.clmEndClear.ReadOnly = true;
-            // 
-            // clmReturnToNormal
-            // 
-            this.clmReturnToNormal.HeaderText = "Return To Normal";
-            this.clmReturnToNormal.Name = "clmReturnToNormal";
-            this.clmReturnToNormal.ReadOnly = true;
             // 
             // clmStartNormal
             // 
@@ -151,12 +142,6 @@
             this.clmReason.HeaderText = "Reason";
             this.clmReason.Name = "clmReason";
             this.clmReason.ReadOnly = true;
-            // 
-            // clmDelay
-            // 
-            this.clmDelay.HeaderText = "Delay";
-            this.clmDelay.Name = "clmDelay";
-            this.clmDelay.ReadOnly = true;
             // 
             // clmDelayedMinutes
             // 
@@ -183,17 +168,15 @@
         private System.Windows.Forms.DataGridView dgvTraffic;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmRoad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmLocation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmDirection;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmAreaAffected;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmTimeToClear;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmStartClear;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmEndClear;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmReturnToNormal;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmStartNormal;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmEndNormal;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmLanesClosed;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmReason;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmDelay;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmDelayedMinutes;
     }
 }
