@@ -8,6 +8,7 @@ namespace TrafficWebScrape.Tests
     {
         private Event event1;
         private Event event2;
+        private Event event3;
 
         private string event2location = "M62 eastbound between junctions J3  and J4 .";
         private string event2status = "Currently Active.";
@@ -23,13 +24,15 @@ namespace TrafficWebScrape.Tests
         private string event2delay = "There are currently delays of 10 minutes against expected traffic.";
         private int event2delayedMinutes = 10;
         private string event2direction = "eastbound";
+        private string event2areaAffected = "between junctions J3  and J4";
 
         [TestInitialize()]
         public void Initialize()
         {
             event1 = new Event("", "Location : The M67 eastbound between junctions J3  and J4 .\n Status : Currently Active. \n Return To Normal : Normal traffic conditions are expected between 17:00 and 17:15 on 11 August 2016. \n Delay : There are currently delays of 10 minutes against expected traffic. \n Reason : Congestion. \n");
             event1.Process();
-            event2 = new Event(event2location, event2status, event2timeToClear, event2returnToNormal, event2lanesClosed, event2reason, event2road, event2startClear, event2endClear, event2startNormal, event2endNormal, event2delay, event2delayedMinutes, event2direction);
+            event2 = new Event(event2location, event2status, event2timeToClear, event2returnToNormal, event2lanesClosed, event2reason, event2road, event2startClear, event2endClear, event2startNormal, event2endNormal, event2delay, event2delayedMinutes, event2direction, event2areaAffected);
+            event3 = new Event(event2location, event2status, event2timeToClear, event2returnToNormal, event2lanesClosed, event2reason, event2delay);
         }
 
         [TestMethod]
@@ -114,6 +117,26 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2delay, event2.Delay);
             Assert.AreEqual("There are currently delays of 10 minutes against expected traffic.", event1.Delay);
+        }
+
+        [TestMethod]
+        public void EventDelayedMinutes()
+        {
+            Assert.AreEqual(event2delayedMinutes, event2.DelayedMinutes);
+            Assert.AreEqual(10, event1.DelayedMinutes);
+        }
+
+        [TestMethod]
+        public void EventAreaEffected()
+        {
+            Assert.AreEqual(event2areaAffected, event2.AreaEffected);
+            Assert.AreEqual("between junctions J3  and J4", event1.AreaEffected);
+        }
+
+        [TestMethod]
+        public void EventEquals()
+        {
+            Assert.AreEqual(event2, event3);
         }
     }
 }

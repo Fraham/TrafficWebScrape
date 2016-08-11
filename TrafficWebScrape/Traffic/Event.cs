@@ -32,7 +32,7 @@ namespace TrafficWebScrape.Traffic
             Summary = summary;
         }
 
-        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, string road, string startClear, string endClear, string startNormal, string endNormal, string delay, int delayedMinutes, string direction)
+        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, string road, string startClear, string endClear, string startNormal, string endNormal, string delay, int delayedMinutes, string direction, string areaAffected)
         {
             Location = location;
             Status = status;
@@ -48,6 +48,7 @@ namespace TrafficWebScrape.Traffic
             Delay = delay;
             DelayedMinutes = delayedMinutes;
             Direction = direction;
+            AreaEffected = areaAffected;
         }
 
         public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, string delay)
