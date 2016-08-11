@@ -40,7 +40,6 @@ namespace TrafficWebScrape.Traffic
                 {
                     Event newEvent = new Event(item.Title.Text, item.Summary.Text);
                     newEvent.Process();
-                    Console.WriteLine(newEvent.ToString);
                     Events.Add(newEvent);
                 }
             }

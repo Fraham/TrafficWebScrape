@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             this.dgvTraffic = new System.Windows.Forms.DataGridView();
+            this.clmRoad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmTimeToClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmReturnToNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmLanesClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTraffic)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,17 +50,24 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvTraffic.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTraffic.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clmRoad,
             this.clmLocation,
             this.clmStatus,
             this.clmTimeToClear,
             this.clmReturnToNormal,
             this.clmLanesClosed,
             this.clmReason});
-            this.dgvTraffic.Location = new System.Drawing.Point(27, 26);
+            this.dgvTraffic.Location = new System.Drawing.Point(27, 45);
             this.dgvTraffic.Name = "dgvTraffic";
             this.dgvTraffic.ReadOnly = true;
-            this.dgvTraffic.Size = new System.Drawing.Size(954, 519);
+            this.dgvTraffic.Size = new System.Drawing.Size(954, 500);
             this.dgvTraffic.TabIndex = 1;
+            // 
+            // clmRoad
+            // 
+            this.clmRoad.HeaderText = "Road";
+            this.clmRoad.Name = "clmRoad";
+            this.clmRoad.ReadOnly = true;
             // 
             // clmLocation
             // 
@@ -96,11 +105,22 @@
             this.clmReason.Name = "clmReason";
             this.clmReason.ReadOnly = true;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(906, 12);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 2;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // frmMainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(993, 557);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.dgvTraffic);
             this.Name = "frmMainPage";
             this.Text = "Traffic Analysis";
@@ -112,12 +132,14 @@
 
         #endregion
         private System.Windows.Forms.DataGridView dgvTraffic;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmRoad;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmLocation;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmTimeToClear;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmReturnToNormal;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmLanesClosed;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmReason;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
 

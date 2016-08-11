@@ -21,14 +21,22 @@ namespace TrafficWebScrape.Display
 
         private void frmMainPage_Load(object sender, EventArgs e)
         {
+            loadTrafficData();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            loadTrafficData();
+        }
+
+        private void loadTrafficData()
+        {
+            dgvTraffic.Rows.Clear();
             Traffic.Traffic traffic = new Traffic.Traffic();
 
             traffic.Process();
 
-            foreach (DataGridViewRow dgvr in traffic.GetDataGridViewRows(dgvTraffic))
-            {
-                //dgvTraffic.Rows.Add(dgvr);
-            }            
+            traffic.GetDataGridViewRows(dgvTraffic);
         }
     }
 }
