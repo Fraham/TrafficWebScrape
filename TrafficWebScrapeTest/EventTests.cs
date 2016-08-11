@@ -40,6 +40,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2location, event2.Location);
             Assert.AreEqual("M67 eastbound between junctions J3  and J4 .", event1.Location);
+
+            event3.Location = null;
+            Assert.AreEqual("Unknown", event3.Location);
         }
 
         [TestMethod]
@@ -47,6 +50,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2status, event2.Status);
             Assert.AreEqual("Currently Active.", event1.Status);
+
+            event3.Status = null;
+            Assert.AreEqual("Unknown", event3.Status);
         }
 
         [TestMethod]
@@ -54,6 +60,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2timeToClear, event2.TimeToClear);
             Assert.AreEqual("Unknown", event1.TimeToClear);
+
+            event3.TimeToClear = null;
+            Assert.AreEqual("Unknown", event3.TimeToClear);
         }
 
         [TestMethod]
@@ -61,6 +70,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2returnToNormal, event2.ReturnToNormal);
             Assert.AreEqual("Normal traffic conditions are expected between 17:00 and 17:15 on 11 August 2016.", event1.ReturnToNormal);
+
+            event3.ReturnToNormal = null;
+            Assert.AreEqual("Unknown", event3.ReturnToNormal);
         }
 
         [TestMethod]
@@ -68,6 +80,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2lanesClosed, event2.LanesClosed);
             Assert.AreEqual("Unknown", event1.LanesClosed);
+
+            event3.LanesClosed = null;
+            Assert.AreEqual("Unknown", event3.LanesClosed);
         }
 
         [TestMethod]
@@ -75,6 +90,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2reason, event2.Reason);
             Assert.AreEqual("Congestion.", event1.Reason);
+
+            event3.Reason = null;
+            Assert.AreEqual("Unknown", event3.Reason);
         }
 
         [TestMethod]
@@ -82,6 +100,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2road, event2.Road);
             Assert.AreEqual("M67", event1.Road);
+
+            event3.Road = null;
+            Assert.AreEqual("Unknown", event3.Road);
         }
 
         [TestMethod]
@@ -89,6 +110,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2startClear, event2.StartClear);
             Assert.AreEqual("Unknown", event1.StartClear);
+
+            event3.StartClear = null;
+            Assert.AreEqual("Unknown", event3.StartClear);
         }
 
         [TestMethod]
@@ -96,6 +120,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2endClear, event2.EndClear);
             Assert.AreEqual("Unknown", event1.EndClear);
+
+            event3.EndClear = null;
+            Assert.AreEqual("Unknown", event3.EndClear);
         }
 
         [TestMethod]
@@ -103,6 +130,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2startNormal, event2.StartNormal);
             Assert.AreEqual("17:00", event1.StartNormal);
+
+            event3.StartNormal = null;
+            Assert.AreEqual("Unknown", event3.StartNormal);
         }
 
         [TestMethod]
@@ -110,6 +140,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2endNormal, event2.EndNormal);
             Assert.AreEqual("17:15", event1.EndNormal);
+
+            event3.EndNormal = null;
+            Assert.AreEqual("Unknown", event3.EndNormal);
         }
 
         [TestMethod]
@@ -117,6 +150,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2delay, event2.Delay);
             Assert.AreEqual("There are currently delays of 10 minutes against expected traffic.", event1.Delay);
+
+            event3.Delay = null;
+            Assert.AreEqual("Unknown", event3.Delay);
         }
 
         [TestMethod]
@@ -131,6 +167,9 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2areaAffected, event2.AreaEffected);
             Assert.AreEqual("between junctions J3  and J4", event1.AreaEffected);
+
+            event3.AreaEffected = null;
+            Assert.AreEqual("Unknown", event3.AreaEffected);
         }
 
         [TestMethod]
