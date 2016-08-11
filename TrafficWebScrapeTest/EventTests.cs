@@ -160,6 +160,24 @@ namespace TrafficWebScrape.Tests
         {
             Assert.AreEqual(event2delayedMinutes, event2.DelayedMinutes);
             Assert.AreEqual(10, event1.DelayedMinutes);
+
+            event3.Delay = "There are currently delays of 30 minutes against expected traffic.";
+            Assert.AreEqual(30, event3.DelayedMinutes);
+
+            event3.Delay = "There are currently delays of 1 and a half hours against expected traffic.";
+            Assert.AreEqual(90, event3.DelayedMinutes);
+
+            event3.Delay = "There are currently delays of 1 hours against expected traffic.";
+            Assert.AreEqual(60, event3.DelayedMinutes);
+
+            event3.Delay = "There are currently delays of 2 hours against expected traffic.";
+            Assert.AreEqual(120, event3.DelayedMinutes);
+
+            event3.Delay = "There are currently delays of 10 hours against expected traffic.";
+            Assert.AreEqual(600, event3.DelayedMinutes);
+
+            event3.Delay = "There are currently delays of 100 hours against expected traffic.";
+            Assert.AreEqual(6000, event3.DelayedMinutes);
         }
 
         [TestMethod]
