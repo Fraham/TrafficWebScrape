@@ -133,6 +133,15 @@ namespace TrafficWebScrape.Tests
 
             event3.StartNormal = null;
             Assert.AreEqual("Unknown", event3.StartNormal);
+
+            event3.ReturnToNormal = "Normal traffic conditions are expected between 14:00 and 14:15 on 11 August 2016.";
+            Assert.AreEqual("14:00", event3.StartNormal);
+
+            event3.ReturnToNormal = "Normal traffic conditions are expected between 00:00 and 00:15 on 11 August 2016.";
+            Assert.AreEqual("00:00", event3.StartNormal);
+
+            event3.ReturnToNormal = "Normal traffic conditions are expected between 00:30 and 00:45 on 11 August 2016.";
+            Assert.AreEqual("00:30", event3.StartNormal);
         }
 
         [TestMethod]
@@ -143,6 +152,15 @@ namespace TrafficWebScrape.Tests
 
             event3.EndNormal = null;
             Assert.AreEqual("Unknown", event3.EndNormal);
+
+            event3.ReturnToNormal = "Normal traffic conditions are expected between 14:00 and 14:15 on 11 August 2016.";
+            Assert.AreEqual("14:15", event3.EndNormal);
+
+            event3.ReturnToNormal = "Normal traffic conditions are expected between 00:00 and 00:15 on 11 August 2016.";
+            Assert.AreEqual("00:15", event3.EndNormal);
+
+            event3.ReturnToNormal = "Normal traffic conditions are expected between 00:30 and 00:45 on 11 August 2016.";
+            Assert.AreEqual("00:45", event3.EndNormal);
         }
 
         [TestMethod]
