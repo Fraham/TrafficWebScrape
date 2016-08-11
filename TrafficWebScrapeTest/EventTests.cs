@@ -113,6 +113,15 @@ namespace TrafficWebScrape.Tests
 
             event3.StartClear = null;
             Assert.AreEqual("Unknown", event3.StartClear);
+
+            event3.TimeToClear = "The event is expected to clear between 04:00 and 04:15 on 12 August 2016.";
+            Assert.AreEqual("04:00", event3.StartClear);
+
+            event3.TimeToClear = "The event is expected to clear between 00:15 and 00:30 on 12 August 2016.";
+            Assert.AreEqual("00:15", event3.StartClear);
+
+            event3.TimeToClear = "The event is expected to clear between 00:30 and 00:45 on 12 August 2016.";
+            Assert.AreEqual("00:30", event3.StartClear);
         }
 
         [TestMethod]
@@ -123,6 +132,15 @@ namespace TrafficWebScrape.Tests
 
             event3.EndClear = null;
             Assert.AreEqual("Unknown", event3.EndClear);
+
+            event3.TimeToClear = "The event is expected to clear between 04:00 and 04:15 on 12 August 2016.";
+            Assert.AreEqual("04:15", event3.EndClear);
+
+            event3.TimeToClear = "The event is expected to clear between 00:15 and 00:30 on 12 August 2016.";
+            Assert.AreEqual("00:30", event3.EndClear);
+
+            event3.TimeToClear = "The event is expected to clear between 00:30 and 00:45 on 12 August 2016.";
+            Assert.AreEqual("00:45", event3.EndClear);
         }
 
         [TestMethod]
@@ -212,6 +230,9 @@ namespace TrafficWebScrape.Tests
         public void EventEquals()
         {
             Assert.AreEqual(event2, event3);
+            event3.Location = null;
+
+            Assert.AreNotEqual(event2, event3);
         }
     }
 }
