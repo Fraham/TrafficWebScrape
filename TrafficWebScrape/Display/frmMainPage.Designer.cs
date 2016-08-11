@@ -37,6 +37,8 @@
             this.clmStartClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmEndClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmReturnToNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmStartNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmEndNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmLanesClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTraffic)).BeginInit();
@@ -59,6 +61,8 @@
             this.clmStartClear,
             this.clmEndClear,
             this.clmReturnToNormal,
+            this.clmStartNormal,
+            this.clmEndNormal,
             this.clmLanesClosed,
             this.clmReason});
             this.dgvTraffic.Location = new System.Drawing.Point(27, 45);
@@ -120,6 +124,18 @@
             this.clmReturnToNormal.Name = "clmReturnToNormal";
             this.clmReturnToNormal.ReadOnly = true;
             // 
+            // clmStartNormal
+            // 
+            this.clmStartNormal.HeaderText = "Start Normal";
+            this.clmStartNormal.Name = "clmStartNormal";
+            this.clmStartNormal.ReadOnly = true;
+            // 
+            // clmEndNormal
+            // 
+            this.clmEndNormal.HeaderText = "End Normal";
+            this.clmEndNormal.Name = "clmEndNormal";
+            this.clmEndNormal.ReadOnly = true;
+            // 
             // clmLanesClosed
             // 
             this.clmLanesClosed.HeaderText = "Lanes Closed";
@@ -157,6 +173,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clmStartClear;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmEndClear;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmReturnToNormal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmStartNormal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmEndNormal;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmLanesClosed;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmReason;
     }

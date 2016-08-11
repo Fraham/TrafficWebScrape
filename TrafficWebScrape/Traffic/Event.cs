@@ -15,6 +15,8 @@ namespace TrafficWebScrape.Traffic
         private string road;
         private string startClear;
         private string endClear;
+        private string startNormal;
+        private string endNormal;
 
         private string title;
         private string summary;
@@ -46,6 +48,8 @@ namespace TrafficWebScrape.Traffic
             Road = ProcessRegex(@"\b[A-Za-z0-9]+\b", Location);
             StartClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 0);
             EndClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 1);
+            StartNormal = ProcessRegex(@"([0-9]+:[0-9]+)", ReturnToNormal, 0);
+            EndNormal = ProcessRegex(@"([0-9]+:[0-9]+)", ReturnToNormal, 1);
         }
 
         private string ProcessRegex(string regexString, string matchingWith, int index)
@@ -267,6 +271,40 @@ namespace TrafficWebScrape.Traffic
             }
         }
 
+        public string StartNormal
+        {
+            get
+            {
+                return startNormal;
+            }
+
+            set
+            {
+                if (value == null || value.Equals(""))
+                {
+                    value = "Unknown";
+                }
+                startNormal = value;
+            }
+        }
+
+        public string EndNormal
+        {
+            get
+            {
+                return endNormal;
+            }
+
+            set
+            {
+                if (value == null || value.Equals(""))
+                {
+                    value = "Unknown";
+                }
+                endNormal = value;
+            }
+        }
+
         public DataGridViewRow GetDataGridViewRow(DataGridView dgv)
         {
             int rowId = dgv.Rows.Add();
@@ -281,8 +319,10 @@ namespace TrafficWebScrape.Traffic
             row.Cells[4].Value = StartClear;
             row.Cells[5].Value = EndClear;
             row.Cells[6].Value = ReturnToNormal;
-            row.Cells[7].Value = LanesClosed;
-            row.Cells[8].Value = Reason;
+            row.Cells[7].Value = StartNormal;
+            row.Cells[8].Value = EndNormal;
+            row.Cells[9].Value = LanesClosed;
+            row.Cells[10].Value = Reason;
 
             return row;
         }
