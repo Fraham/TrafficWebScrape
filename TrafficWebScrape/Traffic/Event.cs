@@ -50,13 +50,13 @@ namespace TrafficWebScrape.Traffic
         public void Process()
         {
             //Console.WriteLine(Summary);
-            Status = ProcessRegex(@"(Status.*.)").Replace("Status : ", "").Trim();
-            Location = ProcessRegex(@"(Location.*.)").Replace("Location : The ", "").Trim();
-            TimeToClear = ProcessRegex(@"(Time To Clear.*.)").Replace("Time To Clear : ", "").Trim();
-            ReturnToNormal = ProcessRegex(@"(Return To Normal.*.)").Replace("Return To Normal : ", "").Trim();
-            LanesClosed = ProcessRegex(@"(Lanes Closed.*.)").Replace("Lanes Closed : ", "").Trim();
-            Reason = ProcessRegex(@"(Reason.*.)").Replace("Reason : ", "").Trim();
-            Delay = ProcessRegex(@"(Delay.*.)").Replace("Delay : ", "").Trim();
+            Status = ProcessRegex(@"Status : (.*)").Trim();
+            Location = ProcessRegex(@"Location : The (.*)").Trim();
+            TimeToClear = ProcessRegex(@"Time To Clear : (.*)").Trim();
+            ReturnToNormal = ProcessRegex(@"Return To Normal : (.*)").Trim();
+            LanesClosed = ProcessRegex(@"Lanes Closed : (.*)").Trim();
+            Reason = ProcessRegex(@"Reason : (.*)").Trim();
+            Delay = ProcessRegex(@"Delay : (.*)").Trim();
         }
 
         private string ProcessRegex(string regexString, string matchingWith, int index)
@@ -82,7 +82,10 @@ namespace TrafficWebScrape.Traffic
 
         private string ProcessRegex(string regexString)
         {
-            return ProcessRegex(regexString, Summary);
+            Regex regex = new Regex(regexString);
+            Match match = regex.Match(Summary);
+
+            return match.Groups[1].Success ? match.Groups[1].Value : "";
         }
 
         public string Location
@@ -101,7 +104,7 @@ namespace TrafficWebScrape.Traffic
 
                 location = value;
 
-                Road = ProcessRegex(@"\b[A-Za-z0-9]+\b", Location);
+                Road = ProcessRegex(@"\b[MAa-z0-9]+\b", Location);
             }
         }
 
