@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace TrafficWebScrape.Traffic
 {
-    internal class Event
+    public class Event
     {
         private string location;
         private string status;
@@ -17,6 +17,7 @@ namespace TrafficWebScrape.Traffic
         private string endClear;
         private string startNormal;
         private string endNormal;
+        private string delay;
 
         private string title;
         private string summary;
@@ -27,7 +28,7 @@ namespace TrafficWebScrape.Traffic
             Summary = summary;
         }
 
-        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason)
+        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, string road, string startClear, string endClear, string startNormal, string endNormal, string delay)
         {
             Location = location;
             Status = status;
@@ -35,16 +36,25 @@ namespace TrafficWebScrape.Traffic
             ReturnToNormal = returnToNormal;
             LanesClosed = lanesClosed;
             Reason = reason;
+            Road = road;
+            StartClear = startClear;
+            EndClear = endClear;
+            StartNormal = startNormal;
+            EndNormal = endNormal;
+            Delay = delay;
         }
+
 
         public void Process()
         {
+            Console.WriteLine(Summary);
             Status = ProcessRegex(@"(Status.*.)").Replace("Status : ", "").Trim();
             Location = ProcessRegex(@"(Location.*.)").Replace("Location : The ", "").Trim();
             TimeToClear = ProcessRegex(@"(Time To Clear.*.)").Replace("Time To Clear : ", "").Trim();
             ReturnToNormal = ProcessRegex(@"(Return To Normal.*.)").Replace("Return To Normal : ", "").Trim();
             LanesClosed = ProcessRegex(@"(Lanes Closed.*.)").Replace("Lanes Closed : ", "").Trim();
             Reason = ProcessRegex(@"(Reason.*.)").Replace("Reason : ", "").Trim();
+            Delay = ProcessRegex(@"(Delay.*.)").Replace("Delay : ", "").Trim();
             Road = ProcessRegex(@"\b[A-Za-z0-9]+\b", Location);
             StartClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 0);
             EndClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 1);
@@ -305,6 +315,19 @@ namespace TrafficWebScrape.Traffic
             }
         }
 
+        public string Delay
+        {
+            get
+            {
+                return delay;
+            }
+
+            set
+            {
+                delay = value;
+            }
+        }
+
         public DataGridViewRow GetDataGridViewRow(DataGridView dgv)
         {
             int rowId = dgv.Rows.Add();
@@ -323,8 +346,75 @@ namespace TrafficWebScrape.Traffic
             row.Cells[8].Value = EndNormal;
             row.Cells[9].Value = LanesClosed;
             row.Cells[10].Value = Reason;
+            row.Cells[11].Value = Delay;
 
             return row;
+        }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Event other = obj as Event;
+
+            if (Road.Equals(other.Road))
+            {
+                return false;
+            }
+            if (Location.Equals(other.Location))
+            {
+                return false;
+            }
+            if (Status.Equals(other.Status))
+            {
+                return false;
+            }
+            if (TimeToClear.Equals(other.TimeToClear))
+            {
+                return false;
+            }
+            if (StartClear.Equals(other.StartClear))
+            {
+                return false;
+            }
+            if (EndClear.Equals(other.EndClear))
+            {
+                return false;
+            }
+            if (ReturnToNormal.Equals(other.ReturnToNormal))
+            {
+                return false;
+            }
+            if (StartNormal.Equals(other.StartNormal))
+            {
+                return false;
+            }
+            if (EndNormal.Equals(other.EndNormal))
+            {
+                return false;
+            }
+            if (LanesClosed.Equals(other.LanesClosed))
+            {
+                return false;
+            }
+            if (Reason.Equals(other.Reason))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            // TODO: write your implementation of GetHashCode() here
+            throw new NotImplementedException();
+            return base.GetHashCode();
         }
     }
 }

@@ -2,17 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
 namespace TrafficWebScrape.Traffic
 {
-    class Traffic
+    public class Traffic
     {
         private ArrayList events = new ArrayList();
         private string trafficURL = "";
@@ -32,20 +30,40 @@ namespace TrafficWebScrape.Traffic
             Events = events;
         }
 
-        public void Process()
+        public void Process(string xml)
         {
-            try
+            XmlReader reader = XmlReader.Create(xml);
+            SyndicationFeed feed = SyndicationFeed.Load(reader);
+
+            foreach (SyndicationItem item in feed.Items)
             {
-                foreach (SyndicationItem item in GetRSSFeed().Items)
+                try
                 {
                     Event newEvent = new Event(item.Title.Text, item.Summary.Text);
                     newEvent.Process();
                     Events.Add(newEvent);
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
-            catch (Exception ex)
+        }
+
+        public void Process()
+        {
+            foreach (SyndicationItem item in GetRSSFeed().Items)
             {
-                Console.WriteLine(ex);
+                try
+                {
+                    Event newEvent = new Event(item.Title.Text, item.Summary.Text);
+                    newEvent.Process();
+                    Events.Add(newEvent);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
         }
 
@@ -102,7 +120,7 @@ namespace TrafficWebScrape.Traffic
             {
                 StringBuilder sb = new StringBuilder();
 
-                foreach(Event e in events)
+                foreach (Event e in events)
                 {
                     sb.Append(e.ToString);
                     sb.Append(System.Environment.NewLine);
@@ -122,6 +140,32 @@ namespace TrafficWebScrape.Traffic
             }
 
             return rows;
+        }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Traffic other = obj as Traffic;
+
+            if (Events.Equals(other.Events))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            // TODO: write your implementation of GetHashCode() here
+            throw new NotImplementedException();
+            return base.GetHashCode();
         }
     }
 }

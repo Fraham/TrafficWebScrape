@@ -41,6 +41,7 @@
             this.clmEndNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmLanesClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmDelay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTraffic)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,7 +65,8 @@
             this.clmStartNormal,
             this.clmEndNormal,
             this.clmLanesClosed,
-            this.clmReason});
+            this.clmReason,
+            this.clmDelay});
             this.dgvTraffic.Location = new System.Drawing.Point(27, 45);
             this.dgvTraffic.Name = "dgvTraffic";
             this.dgvTraffic.ReadOnly = true;
@@ -148,6 +150,12 @@
             this.clmReason.Name = "clmReason";
             this.clmReason.ReadOnly = true;
             // 
+            // clmDelay
+            // 
+            this.clmDelay.HeaderText = "Delay";
+            this.clmDelay.Name = "clmDelay";
+            this.clmDelay.ReadOnly = true;
+            // 
             // frmMainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -177,6 +185,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clmEndNormal;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmLanesClosed;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmReason;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmDelay;
     }
 }
 
