@@ -19,6 +19,8 @@ namespace TrafficWebScrape.Traffic
         private string endNormal;
         private string delay;
 
+        private int delayedMinutes;
+
         private string title;
         private string summary;
 
@@ -47,7 +49,7 @@ namespace TrafficWebScrape.Traffic
 
         public void Process()
         {
-            Console.WriteLine(Summary);
+            //Console.WriteLine(Summary);
             Status = ProcessRegex(@"(Status.*.)").Replace("Status : ", "").Trim();
             Location = ProcessRegex(@"(Location.*.)").Replace("Location : The ", "").Trim();
             TimeToClear = ProcessRegex(@"(Time To Clear.*.)").Replace("Time To Clear : ", "").Trim();
@@ -55,11 +57,6 @@ namespace TrafficWebScrape.Traffic
             LanesClosed = ProcessRegex(@"(Lanes Closed.*.)").Replace("Lanes Closed : ", "").Trim();
             Reason = ProcessRegex(@"(Reason.*.)").Replace("Reason : ", "").Trim();
             Delay = ProcessRegex(@"(Delay.*.)").Replace("Delay : ", "").Trim();
-            Road = ProcessRegex(@"\b[A-Za-z0-9]+\b", Location);
-            StartClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 0);
-            EndClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 1);
-            StartNormal = ProcessRegex(@"([0-9]+:[0-9]+)", ReturnToNormal, 0);
-            EndNormal = ProcessRegex(@"([0-9]+:[0-9]+)", ReturnToNormal, 1);
         }
 
         private string ProcessRegex(string regexString, string matchingWith, int index)
@@ -103,6 +100,8 @@ namespace TrafficWebScrape.Traffic
                 }
 
                 location = value;
+
+                Road = ProcessRegex(@"\b[A-Za-z0-9]+\b", Location);
             }
         }
 
@@ -165,6 +164,9 @@ namespace TrafficWebScrape.Traffic
                 }
 
                 timeToClear = value;
+
+                StartClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 0);
+                EndClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 1);
             }
         }
 
@@ -183,6 +185,9 @@ namespace TrafficWebScrape.Traffic
                 }
 
                 returnToNormal = value;
+
+                StartNormal = ProcessRegex(@"([0-9]+:[0-9]+)", ReturnToNormal, 0);
+                EndNormal = ProcessRegex(@"([0-9]+:[0-9]+)", ReturnToNormal, 1);
             }
         }
 
@@ -324,7 +329,73 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
+                if (value == null || value.Equals(""))
+                {
+                    value = "Unknown";
+                }
                 delay = value;
+
+                if (!Delay.Equals("Unknown"))
+                {
+                    Regex regex = new Regex(@"(([0-9]+) minutes)|(([0-9]+)( and |)(three quarters|a half|a quarter|) hours)");
+                    Match match = regex.Match(Delay);
+
+                    if (match.Success)
+                    {
+                        if (match.Groups[1].Success)
+                        {
+                            try
+                            {
+                                DelayedMinutes = Int32.Parse(match.Groups[2].Value);
+                            }
+                            catch (FormatException fe)
+                            {
+                                DelayedMinutes = 0;
+                            }
+                        }
+                        else if (match.Groups[3].Success)
+                        {
+                            int minutes = 0;
+
+                            try
+                            {
+                                minutes = Int32.Parse(match.Groups[4].Value) * 60;
+                            }
+                            catch (FormatException fe)
+                            {
+                                minutes = 0;
+                            }
+
+                            if (match.Groups[6].Value.Equals("three quarters"))
+                            {
+                                minutes += 45;
+                            }
+                            else if (match.Groups[6].Value.Equals("a half"))
+                            {
+                                minutes += 30;
+                            }
+                            else if (match.Groups[6].Value.Equals("a quarter"))
+                            {
+                                minutes += 15;
+                            }
+
+                            DelayedMinutes = minutes;
+                        }
+                    }
+                }
+            }
+        }
+
+        public int DelayedMinutes
+        {
+            get
+            {
+                return delayedMinutes;
+            }
+
+            set
+            {
+                delayedMinutes = value;
             }
         }
 
@@ -347,6 +418,7 @@ namespace TrafficWebScrape.Traffic
             row.Cells[9].Value = LanesClosed;
             row.Cells[10].Value = Reason;
             row.Cells[11].Value = Delay;
+            row.Cells[12].Value = DelayedMinutes;
 
             return row;
         }
@@ -361,47 +433,55 @@ namespace TrafficWebScrape.Traffic
 
             Event other = obj as Event;
 
-            if (Road.Equals(other.Road))
+            if (!Road.Equals(other.Road))
             {
                 return false;
             }
-            if (Location.Equals(other.Location))
+            if (!Location.Equals(other.Location))
             {
                 return false;
             }
-            if (Status.Equals(other.Status))
+            if (!Status.Equals(other.Status))
             {
                 return false;
             }
-            if (TimeToClear.Equals(other.TimeToClear))
+            if (!TimeToClear.Equals(other.TimeToClear))
             {
                 return false;
             }
-            if (StartClear.Equals(other.StartClear))
+            if (!StartClear.Equals(other.StartClear))
             {
                 return false;
             }
-            if (EndClear.Equals(other.EndClear))
+            if (!EndClear.Equals(other.EndClear))
             {
                 return false;
             }
-            if (ReturnToNormal.Equals(other.ReturnToNormal))
+            if (!ReturnToNormal.Equals(other.ReturnToNormal))
             {
                 return false;
             }
-            if (StartNormal.Equals(other.StartNormal))
+            if (!StartNormal.Equals(other.StartNormal))
             {
                 return false;
             }
-            if (EndNormal.Equals(other.EndNormal))
+            if (!EndNormal.Equals(other.EndNormal))
             {
                 return false;
             }
-            if (LanesClosed.Equals(other.LanesClosed))
+            if (!LanesClosed.Equals(other.LanesClosed))
             {
                 return false;
             }
-            if (Reason.Equals(other.Reason))
+            if (!Reason.Equals(other.Reason))
+            {
+                return false;
+            }
+            if (!Delay.Equals(other.Delay))
+            {
+                return false;
+            }
+            if (DelayedMinutes != other.DelayedMinutes)
             {
                 return false;
             }
