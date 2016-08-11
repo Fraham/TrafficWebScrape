@@ -13,6 +13,8 @@ namespace TrafficWebScrape.Traffic
         private string lanesClosed;
         private string reason;
         private string road;
+        private string startClear;
+        private string endClear;
 
         private string title;
         private string summary;
@@ -42,6 +44,21 @@ namespace TrafficWebScrape.Traffic
             LanesClosed = ProcessRegex(@"(Lanes Closed.*.)").Replace("Lanes Closed : ", "").Trim();
             Reason = ProcessRegex(@"(Reason.*.)").Replace("Reason : ", "").Trim();
             Road = ProcessRegex(@"\b[A-Za-z0-9]+\b", Location);
+            StartClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 0);
+            EndClear = ProcessRegex(@"([0-9]+:[0-9]+)", TimeToClear, 1);
+        }
+
+        private string ProcessRegex(string regexString, string matchingWith, int index)
+        {
+            Regex regex = new Regex(regexString);
+            MatchCollection match = regex.Matches(matchingWith);
+
+            if (match.Count <= index)
+            {
+                return "";
+            }
+
+            return match[index].Success ? match[index].Value : "";
         }
 
         private string ProcessRegex(string regexString, string matchingWith)
@@ -66,7 +83,7 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
-                if (value == null || value == "")
+                if (value == null || value.Equals(""))
                 {
                     value = "Unknown";
                 }
@@ -84,7 +101,7 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
-                if (value == null || value == "")
+                if (value == null || value.Equals(""))
                 {
                     value = "Unknown";
                 }
@@ -128,7 +145,7 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
-                if (value == null || value == "")
+                if (value == null || value.Equals(""))
                 {
                     value = "Unknown";
                 }
@@ -146,7 +163,7 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
-                if (value == null || value == "")
+                if (value == null || value.Equals(""))
                 {
                     value = "Unknown";
                 }
@@ -164,7 +181,7 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
-                if (value == null || value == "")
+                if (value == null || value.Equals(""))
                 {
                     value = "Unknown";
                 }
@@ -182,7 +199,7 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
-                if (value == null || value == "")
+                if (value == null || value.Equals(""))
                 {
                     value = "Unknown";
                 }
@@ -208,11 +225,45 @@ namespace TrafficWebScrape.Traffic
 
             set
             {
-                if (value == null || value == "")
+                if (value == null || value.Equals(""))
                 {
                     value = "Unknown";
                 }
                 road = value;
+            }
+        }
+
+        public string StartClear
+        {
+            get
+            {
+                return startClear;
+            }
+
+            set
+            {
+                if (value == null || value.Equals(""))
+                {
+                    value = "Unknown";
+                }
+                startClear = value;
+            }
+        }
+
+        public string EndClear
+        {
+            get
+            {
+                return endClear;
+            }
+
+            set
+            {
+                if (value == null || value.Equals(""))
+                {
+                    value = "Unknown";
+                }
+                endClear = value;
             }
         }
 
@@ -227,9 +278,11 @@ namespace TrafficWebScrape.Traffic
             row.Cells[1].Value = Location;
             row.Cells[2].Value = Status;
             row.Cells[3].Value = TimeToClear;
-            row.Cells[4].Value = ReturnToNormal;
-            row.Cells[5].Value = LanesClosed;
-            row.Cells[6].Value = Reason;
+            row.Cells[4].Value = StartClear;
+            row.Cells[5].Value = EndClear;
+            row.Cells[6].Value = ReturnToNormal;
+            row.Cells[7].Value = LanesClosed;
+            row.Cells[8].Value = Reason;
 
             return row;
         }

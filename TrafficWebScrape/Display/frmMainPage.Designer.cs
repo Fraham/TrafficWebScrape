@@ -29,14 +29,16 @@
         private void InitializeComponent()
         {
             this.dgvTraffic = new System.Windows.Forms.DataGridView();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.clmRoad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmTimeToClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmStartClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmEndClear = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmReturnToNormal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmLanesClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTraffic)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,6 +56,8 @@
             this.clmLocation,
             this.clmStatus,
             this.clmTimeToClear,
+            this.clmStartClear,
+            this.clmEndClear,
             this.clmReturnToNormal,
             this.clmLanesClosed,
             this.clmReason});
@@ -62,6 +66,17 @@
             this.dgvTraffic.ReadOnly = true;
             this.dgvTraffic.Size = new System.Drawing.Size(954, 500);
             this.dgvTraffic.TabIndex = 1;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefresh.Location = new System.Drawing.Point(906, 12);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 2;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // clmRoad
             // 
@@ -87,6 +102,18 @@
             this.clmTimeToClear.Name = "clmTimeToClear";
             this.clmTimeToClear.ReadOnly = true;
             // 
+            // clmStartClear
+            // 
+            this.clmStartClear.HeaderText = "Start Clear";
+            this.clmStartClear.Name = "clmStartClear";
+            this.clmStartClear.ReadOnly = true;
+            // 
+            // clmEndClear
+            // 
+            this.clmEndClear.HeaderText = "End Clear";
+            this.clmEndClear.Name = "clmEndClear";
+            this.clmEndClear.ReadOnly = true;
+            // 
             // clmReturnToNormal
             // 
             this.clmReturnToNormal.HeaderText = "Return To Normal";
@@ -105,16 +132,6 @@
             this.clmReason.Name = "clmReason";
             this.clmReason.ReadOnly = true;
             // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(906, 12);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 2;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
             // frmMainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -132,14 +149,16 @@
 
         #endregion
         private System.Windows.Forms.DataGridView dgvTraffic;
+        private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmRoad;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmLocation;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmTimeToClear;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmStartClear;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmEndClear;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmReturnToNormal;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmLanesClosed;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmReason;
-        private System.Windows.Forms.Button btnRefresh;
     }
 }
 
