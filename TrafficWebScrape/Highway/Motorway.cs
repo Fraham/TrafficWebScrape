@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrafficWebScrape.Highway
 {
-    class Motorway : Road
+    public class Motorway : Road
     {
         public Motorway(string name) : base(name)
         {
