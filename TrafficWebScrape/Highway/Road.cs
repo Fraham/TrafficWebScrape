@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,27 @@ namespace TrafficWebScrape.Highway
             return Roads;
         }
 
-        public static Road newRoad(string roadName)
+        private static Road DecodeName(string roadName)
+        {
+            Road road;
+
+            if (roadName.StartsWith("M"))
+            {
+                road = new Motorway(roadName);
+            }
+            else if (roadName.StartsWith("A"))
+            {
+                road = new ARoad(roadName);
+            }
+            else
+            {
+                road = new Road(roadName);
+            }
+
+            return road;
+        }
+
+        public static Road NewRoad(string roadName)
         {
             Road road;
 
@@ -58,7 +79,7 @@ namespace TrafficWebScrape.Highway
                 }
             }
 
-            return newRoad(roadName);
+            return NewRoad(roadName);
         }
 
         public static void Load()
@@ -66,56 +87,49 @@ namespace TrafficWebScrape.Highway
             Load(filename);
         }
 
+        private static void ProcessReader(XmlReader reader)
+        {
+            if (reader.Read())
+            {
+                switch (reader.Name)
+                {
+                    case "Name":
+                        if (reader.Read())
+                        {
+                            Roads.Add(DecodeName(reader.Value.Trim()));
+                        }
+                        break;
+                }
+            }
+        }
+
         public static void Load(string filename)
         {
-            using (XmlReader reader = XmlReader.Create(filename))
+            try
             {
-                while (reader.Read())
+                using (XmlReader reader = XmlReader.Create(filename))
                 {
-                    // Only detect start elements.
-                    if (reader.IsStartElement())
+                    while (reader.Read())
                     {
-                        // Get element name and switch on it.
-                        switch (reader.Name)
+                        // Only detect start elements.
+                        if (reader.IsStartElement())
                         {
-                            case "Roads":
-                                break;
-                            case "Road":
-                                if (reader.Read())
-                                {
-                                    switch (reader.Name)
-                                    {
-                                        case "Name":
-                                            Roads.Add(new Road(reader.Value.Trim()));
-                                            break;
-                                    }
-                                }
-                                break;
-                            case "ARoad":
-                                if (reader.Read())
-                                {
-                                    switch (reader.Name)
-                                    {
-                                        case "Name":
-                                            Roads.Add(new ARoad(reader.Value.Trim()));
-                                            break;
-                                    }
-                                }
-                                break;
-                            case "Motorway":
-                                if (reader.Read())
-                                {
-                                    switch (reader.Name)
-                                    {
-                                        case "Name":
-                                            Roads.Add(new Motorway(reader.Value.Trim()));
-                                            break;
-                                    }
-                                }
-                                break;
+                            // Get element name and switch on it.
+                            switch (reader.Name)
+                            {
+                                case "Road":
+                                case "ARoad":
+                                case "Motorway":
+                                    ProcessReader(reader);
+                                    break;
+                            }
                         }
                     }
                 }
+            }
+            catch (FileNotFoundException ex)
+            {
+
             }
         }
 
@@ -231,7 +245,7 @@ namespace TrafficWebScrape.Highway
                 return false;
             }
 
-            return base.Equals(obj);
+            return true;
         }
 
         // override object.GetHashCode
