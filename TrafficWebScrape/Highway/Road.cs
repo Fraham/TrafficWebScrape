@@ -187,7 +187,7 @@ namespace TrafficWebScrape.Highway
             }
         }
 
-        internal static List<Road> Roads
+        public static List<Road> Roads
         {
             get
             {

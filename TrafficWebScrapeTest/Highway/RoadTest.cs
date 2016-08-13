@@ -3,6 +3,8 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TrafficWebScrape.Highway;
+using System.Linq;
+using System.IO;
 
 namespace TrafficWebScrapeTest.Highway
 {
@@ -31,6 +33,9 @@ namespace TrafficWebScrapeTest.Highway
             Assert.AreEqual("Test", road.ToString);
 
             Assert.AreEqual(Road.GetRoad("Test"), road);
+
+            road.Name = "Testing";
+            Assert.AreEqual("Testing", road.Name);
         }
 
         [TestMethod]
@@ -40,6 +45,9 @@ namespace TrafficWebScrapeTest.Highway
             Assert.AreEqual("A570", aRoad.ToString);
 
             Assert.AreEqual(Road.GetRoad("A570"), aRoad);
+
+            aRoad.Name = "Testing";
+            Assert.AreEqual("Testing", aRoad.Name);
         }
 
         [TestMethod]
@@ -49,6 +57,29 @@ namespace TrafficWebScrapeTest.Highway
             Assert.AreEqual("M6", motorway.ToString);
 
             Assert.AreEqual(Road.GetRoad("M6"), motorway);
+
+            motorway.Name = "Testing";
+            Assert.AreEqual("Testing", motorway.Name);
+        }
+
+        [TestMethod]
+        public void RoadLoadSave()
+        {
+            File.Delete("roads.xml");
+
+            Road.Roads = new List<Road>();
+
+            Road.Roads.Add(road);
+            Road.Roads.Add(aRoad);
+            Road.Roads.Add(motorway);
+
+            Road.Save();
+
+            Road.Roads = new List<Road>();
+
+            Road.Load();
+
+            Assert.AreEqual(3, Road.Roads.Count);
         }
     }
 }
