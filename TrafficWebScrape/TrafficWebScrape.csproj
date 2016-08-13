@@ -54,6 +54,8 @@
     <Compile Include="Display\frmMainPage.Designer.cs">
       <DependentUpon>frmMainPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Highway\ARoad.cs" />
+    <Compile Include="Highway\Motorway.cs" />
     <Compile Include="Highway\Road.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

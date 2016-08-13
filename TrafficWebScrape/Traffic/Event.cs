@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using TrafficWebScrape.Highway;
 
 namespace TrafficWebScrape.Traffic
 {
@@ -14,7 +15,7 @@ namespace TrafficWebScrape.Traffic
         private string reason;
         private string delay;
 
-        private string road;
+        private Road road;
         private string startClear;
         private string endClear;
         private string startNormal;
@@ -32,7 +33,7 @@ namespace TrafficWebScrape.Traffic
             Summary = summary;
         }
 
-        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, string road, string startClear, string endClear, string startNormal, string endNormal, string delay, int delayedMinutes, string direction, string areaAffected)
+        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, Road road, string startClear, string endClear, string startNormal, string endNormal, string delay, int delayedMinutes, string direction, string areaAffected)
         {
             Location = location;
             Status = status;
@@ -113,7 +114,7 @@ namespace TrafficWebScrape.Traffic
 
                 location = value;
 
-                Road = ProcessRegex(@"\b[MAa-z0-9]+\b", 0, Location);
+                Road = Road.GetRoad(ProcessRegex(@"\b[MAa-z0-9]+\b", 0, Location));
                 Direction = ProcessRegex(@"(eastbound|westbound|northbound|southbound|clockwise|anticlockwise)", 0, Location);
                 AreaEffected = ProcessRegex(@"\b[MAa-z0-9]+\b \b[a-z0-9]+\b (.*) ", 1, Location);
             }
@@ -249,7 +250,7 @@ namespace TrafficWebScrape.Traffic
             }
         }
 
-        public string Road
+        public Road Road
         {
             get
             {
@@ -260,7 +261,7 @@ namespace TrafficWebScrape.Traffic
             {
                 if (value == null || value.Equals(""))
                 {
-                    value = "Unknown";
+                    value = Road.GetRoad("Unknown");
                 }
                 road = value;
             }
@@ -461,7 +462,7 @@ namespace TrafficWebScrape.Traffic
             // Grab the new row!
             DataGridViewRow row = dgv.Rows[rowId];
 
-            row.Cells[0].Value = Road;
+            row.Cells[0].Value = Road.ToString;
             row.Cells[1].Value = Direction;
             row.Cells[2].Value = AreaEffected;
             row.Cells[3].Value = Status;

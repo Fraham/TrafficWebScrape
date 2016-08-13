@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace TrafficWebScrape.Highway
 {
-    class Road
+    public class Road
     {
         private string name;
 
@@ -20,9 +20,28 @@ namespace TrafficWebScrape.Highway
             Name = name;
         }
 
+        public static List<Road> GetAll()
+        {
+            return Roads;
+        }
+
         public static Road newRoad(string roadName)
         {
-            Road road = new Road(roadName);
+            Road road;
+
+            if (roadName.StartsWith("M"))
+            {
+                road = new Motorway(roadName);
+            }
+            else if (roadName.StartsWith("A"))
+            {
+                road = new ARoad(roadName);
+            }
+            else
+            {
+                road = new Road(roadName);
+            }
+
             Roads.Add(road);
             Save();
 
@@ -60,25 +79,36 @@ namespace TrafficWebScrape.Highway
                         switch (reader.Name)
                         {
                             case "Roads":
-                                // Detect this element.
-                                Console.WriteLine("Start <Roads> element.");
                                 break;
                             case "Road":
-                                // Detect this article element.
-                                Console.WriteLine("Start <Road> element.");
-                                // Search for the attribute name on this current node.
-                                string attribute = reader["name"];
-                                if (attribute != null)
-                                {
-                                    Console.WriteLine("  Has attribute name: " + attribute);
-                                }
-                                // Next read will contain text.
                                 if (reader.Read())
                                 {
                                     switch (reader.Name)
                                     {
                                         case "Name":
                                             Roads.Add(new Road(reader.Value.Trim()));
+                                            break;
+                                    }
+                                }
+                                break;
+                            case "ARoad":
+                                if (reader.Read())
+                                {
+                                    switch (reader.Name)
+                                    {
+                                        case "Name":
+                                            Roads.Add(new ARoad(reader.Value.Trim()));
+                                            break;
+                                    }
+                                }
+                                break;
+                            case "Motorway":
+                                if (reader.Read())
+                                {
+                                    switch (reader.Name)
+                                    {
+                                        case "Name":
+                                            Roads.Add(new Motorway(reader.Value.Trim()));
                                             break;
                                     }
                                 }
@@ -103,7 +133,18 @@ namespace TrafficWebScrape.Highway
 
                 foreach (Road road in Roads)
                 {
-                    writer.WriteStartElement("Road");
+                    string roadType = "Road";
+                    if (road is Motorway)
+                    {
+                        roadType = "Motorway";
+                    }
+                    else if (road is ARoad)
+                    {
+                        roadType = "Motorway";
+                    }
+
+
+                    writer.WriteStartElement(roadType);
 
                     writer.WriteElementString("Name", road.Name);
 
@@ -160,6 +201,43 @@ namespace TrafficWebScrape.Highway
             {
                 filename = value;
             }
+        }
+
+        public new string ToString
+        {
+            get
+            {
+                return Name;
+            }
+        }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Road other = obj as Road;
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (!Name.Equals(other.Name))
+            {
+                return false;
+            }
+
+            return base.Equals(obj);
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
