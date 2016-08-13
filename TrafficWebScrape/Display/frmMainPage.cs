@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using TrafficWebScrape.Highway;
 
 namespace TrafficWebScrape.Display
 {
@@ -8,6 +9,9 @@ namespace TrafficWebScrape.Display
         public frmMainPage()
         {
             InitializeComponent();
+
+            Road.Load();
+            Console.WriteLine(Road.Roads.Count);
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
