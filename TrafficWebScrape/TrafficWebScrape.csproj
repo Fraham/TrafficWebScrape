@@ -57,6 +57,7 @@
     <Compile Include="Highway\ARoad.cs" />
     <Compile Include="Highway\Motorway.cs" />
     <Compile Include="Highway\Road.cs" />
+    <Compile Include="Problem\Problem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Traffic\Event.cs" />

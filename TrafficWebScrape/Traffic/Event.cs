@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using TrafficWebScrape.Highway;
+using TrafficWebScrape.Problem;
 
 namespace TrafficWebScrape.Traffic
 {
@@ -12,7 +13,7 @@ namespace TrafficWebScrape.Traffic
         private string timeToClear;
         private string returnToNormal;
         private string lanesClosed;
-        private string reason;
+        private Problem.Problem reason;
         private string delay;
 
         private Road road;
@@ -33,7 +34,7 @@ namespace TrafficWebScrape.Traffic
             Summary = summary;
         }
 
-        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, Road road, string startClear, string endClear, string startNormal, string endNormal, string delay, int delayedMinutes, string direction, string areaAffected)
+        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, Problem.Problem reason, Road road, string startClear, string endClear, string startNormal, string endNormal, string delay, int delayedMinutes, string direction, string areaAffected)
         {
             Location = location;
             Status = status;
@@ -52,7 +53,7 @@ namespace TrafficWebScrape.Traffic
             AreaEffected = areaAffected;
         }
 
-        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, string reason, string delay)
+        public Event(string location, string status, string timeToClear, string returnToNormal, string lanesClosed, Problem.Problem reason, string delay)
         {
             Location = location;
             Status = status;
@@ -71,7 +72,7 @@ namespace TrafficWebScrape.Traffic
             TimeToClear = ProcessRegex(@"Time To Clear : (.*)", 1).Trim();
             ReturnToNormal = ProcessRegex(@"Return To Normal : (.*)", 1).Trim();
             LanesClosed = ProcessRegex(@"Lanes Closed : (.*)", 1).Trim();
-            Reason = ProcessRegex(@"Reason : (.*)", 1).Trim();
+            Reason = Problem.Problem.GetProblem(ProcessRegex(@"Reason : (.*)", 1).Trim());
             Delay = ProcessRegex(@"Delay : (.*)", 1).Trim();
         }
 
@@ -224,7 +225,7 @@ namespace TrafficWebScrape.Traffic
             }
         }
 
-        public string Reason
+        public Problem.Problem Reason
         {
             get
             {
@@ -235,7 +236,7 @@ namespace TrafficWebScrape.Traffic
             {
                 if (value == null || value.Equals(""))
                 {
-                    value = "Unknown";
+                    value = Problem.Problem.GetProblem("Unknown");
                 }
 
                 reason = value;
@@ -471,7 +472,7 @@ namespace TrafficWebScrape.Traffic
             row.Cells[6].Value = StartNormal;
             row.Cells[7].Value = EndNormal;
             row.Cells[8].Value = LanesClosed;
-            row.Cells[9].Value = Reason;
+            row.Cells[9].Value = Reason.ToString;
             row.Cells[10].Value = DelayedMinutes;
 
             return row;

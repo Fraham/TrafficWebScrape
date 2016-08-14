@@ -80,6 +80,10 @@ namespace TrafficWebScrapeTest.Highway
             Road.Load();
 
             Assert.AreEqual(3, Road.Roads.Count);
+
+            Assert.IsTrue(Road.Roads.Contains(road));
+            Assert.IsTrue(Road.Roads.Contains(aRoad));
+            Assert.IsTrue(Road.Roads.Contains(motorway));
         }
     }
 }

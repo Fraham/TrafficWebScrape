@@ -154,9 +154,8 @@ namespace TrafficWebScrape.Highway
                     }
                     else if (road is ARoad)
                     {
-                        roadType = "Motorway";
+                        roadType = "ARoad";
                     }
-
 
                     writer.WriteStartElement(roadType);
 
