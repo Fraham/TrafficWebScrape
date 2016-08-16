@@ -2,17 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using TrafficWebScrape.Highway;
 
 namespace TrafficWebScrape.Traffic
 {
     public class Traffic
     {
-        private ArrayList events = new ArrayList();
+        private List<Event> events = new List<Event>();
         private string trafficURL = "";
 
         public Traffic()
@@ -25,7 +27,7 @@ namespace TrafficWebScrape.Traffic
             TrafficURL = trafficURL;
         }
 
-        public Traffic(ArrayList events)
+        public Traffic(List<Event> events)
         {
             Events = events;
         }
@@ -83,7 +85,7 @@ namespace TrafficWebScrape.Traffic
             return feed;
         }
 
-        public ArrayList Events
+        public List<Event> Events
         {
             get
             {
@@ -94,7 +96,7 @@ namespace TrafficWebScrape.Traffic
             {
                 if (value == null)
                 {
-                    value = new ArrayList();
+                    value = new List<Event>();
                 }
 
                 events = value;
@@ -135,6 +137,20 @@ namespace TrafficWebScrape.Traffic
             List<DataGridViewRow> rows = new List<DataGridViewRow>();
 
             foreach (Event e in Events)
+            {
+                rows.Add(e.GetDataGridViewRow(dgv));
+            }
+
+            return rows;
+        }
+
+        public List<DataGridViewRow> GetDataGridViewRows(DataGridView dgv, Road road)
+        {
+            List<DataGridViewRow> rows = new List<DataGridViewRow>();
+
+            List<Event> filteredList = Events.Where(x => x.Road.Equals(road)).ToList();
+
+            foreach (Event e in filteredList)
             {
                 rows.Add(e.GetDataGridViewRow(dgv));
             }

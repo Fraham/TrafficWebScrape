@@ -11,7 +11,6 @@ namespace TrafficWebScrape.Display
             InitializeComponent();
 
             Road.Load();
-            Console.WriteLine(Road.Roads.Count);
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -22,6 +21,11 @@ namespace TrafficWebScrape.Display
         private void frmMainPage_Load(object sender, EventArgs e)
         {
             loadTrafficData();
+
+            foreach(Road road in Road.Roads)
+            {
+                cmbRoadSelection.Items.Add(road.Name);
+            }
         }
         private void loadTrafficData()
         {
@@ -31,6 +35,23 @@ namespace TrafficWebScrape.Display
             traffic.Process();
 
             traffic.GetDataGridViewRows(dgvTraffic);
+        }
+
+        private void btnFilterRoad_Click(object sender, EventArgs e)
+        {
+            dgvTraffic.Rows.Clear();
+            Traffic.Traffic traffic = new Traffic.Traffic();
+
+            traffic.Process();
+
+            if (cmbRoadSelection.SelectedItem == null)// || cmbRoadSelection.SelectedValue.Equals(""))
+            {
+                traffic.GetDataGridViewRows(dgvTraffic);
+            }
+            else
+            {
+                traffic.GetDataGridViewRows(dgvTraffic, Road.GetRoad(cmbRoadSelection.SelectedItem.ToString()));
+            }
         }
     }
 }

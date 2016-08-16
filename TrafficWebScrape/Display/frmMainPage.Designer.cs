@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.dgvTraffic = new System.Windows.Forms.DataGridView();
-            this.btnRefresh = new System.Windows.Forms.Button();
             this.clmRoad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmDirection = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmAreaAffected = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,6 +40,9 @@
             this.clmLanesClosed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmDelayedMinutes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.cmbRoadSelection = new System.Windows.Forms.ComboBox();
+            this.btnFilterRoad = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTraffic)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,17 +73,6 @@
             this.dgvTraffic.ReadOnly = true;
             this.dgvTraffic.Size = new System.Drawing.Size(954, 500);
             this.dgvTraffic.TabIndex = 1;
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.Location = new System.Drawing.Point(906, 12);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 2;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // clmRoad
             // 
@@ -149,11 +140,42 @@
             this.clmDelayedMinutes.Name = "clmDelayedMinutes";
             this.clmDelayedMinutes.ReadOnly = true;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefresh.Location = new System.Drawing.Point(906, 12);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 2;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // cmbRoadSelection
+            // 
+            this.cmbRoadSelection.FormattingEnabled = true;
+            this.cmbRoadSelection.Location = new System.Drawing.Point(27, 14);
+            this.cmbRoadSelection.Name = "cmbRoadSelection";
+            this.cmbRoadSelection.Size = new System.Drawing.Size(121, 21);
+            this.cmbRoadSelection.TabIndex = 3;
+            // 
+            // btnFilterRoad
+            // 
+            this.btnFilterRoad.Location = new System.Drawing.Point(154, 12);
+            this.btnFilterRoad.Name = "btnFilterRoad";
+            this.btnFilterRoad.Size = new System.Drawing.Size(75, 23);
+            this.btnFilterRoad.TabIndex = 4;
+            this.btnFilterRoad.Text = "Filter";
+            this.btnFilterRoad.UseVisualStyleBackColor = true;
+            this.btnFilterRoad.Click += new System.EventHandler(this.btnFilterRoad_Click);
+            // 
             // frmMainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(993, 557);
+            this.Controls.Add(this.btnFilterRoad);
+            this.Controls.Add(this.cmbRoadSelection);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.dgvTraffic);
             this.Name = "frmMainPage";
@@ -178,6 +200,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clmLanesClosed;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmReason;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmDelayedMinutes;
+        private System.Windows.Forms.ComboBox cmbRoadSelection;
+        private System.Windows.Forms.Button btnFilterRoad;
     }
 }
 
