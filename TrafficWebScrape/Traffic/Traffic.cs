@@ -17,6 +17,8 @@ namespace TrafficWebScrape.Traffic
         private List<Event> events = new List<Event>();
         private string trafficURL = "";
 
+        private List<Road> problemRoads = new List<Road>();
+
         public Traffic()
         {
             TrafficURL = "http://api.hatrafficinfo.dft.gov.uk/datexphase2/dtxRss.aspx?srcUrl=http://hatrafficinfo.dft.gov.uk/feeds/rss/UnplannedEvents.xml&justToday=Y&sortfield=road&sortorder=up";
@@ -37,30 +39,29 @@ namespace TrafficWebScrape.Traffic
             XmlReader reader = XmlReader.Create(xml);
             SyndicationFeed feed = SyndicationFeed.Load(reader);
 
-            foreach (SyndicationItem item in feed.Items)
-            {
-                try
-                {
-                    Event newEvent = new Event(item.Title.Text, item.Summary.Text);
-                    newEvent.Process();
-                    Events.Add(newEvent);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-            }
+            ProcessItems(feed.Items);
         }
 
         public void Process()
         {
-            foreach (SyndicationItem item in GetRSSFeed().Items)
+            ProcessItems(GetRSSFeed().Items);
+        }
+
+        private void ProcessItems(IEnumerable<SyndicationItem> items)
+        {
+            ProblemRoads = new List<Road>();
+            foreach (SyndicationItem item in items)
             {
                 try
                 {
                     Event newEvent = new Event(item.Title.Text, item.Summary.Text);
                     newEvent.Process();
                     Events.Add(newEvent);
+
+                    if (!ProblemRoads.Contains(newEvent.Road))
+                    {
+                        ProblemRoads.Add(newEvent.Road);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -129,6 +130,19 @@ namespace TrafficWebScrape.Traffic
                 }
 
                 return sb.ToString();
+            }
+        }
+
+        public List<Road> ProblemRoads
+        {
+            get
+            {
+                return problemRoads;
+            }
+
+            set
+            {
+                problemRoads = value;
             }
         }
 

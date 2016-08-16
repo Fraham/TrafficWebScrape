@@ -28,6 +28,8 @@ namespace TrafficWebScrape.Traffic
         private string title;
         private string summary;
 
+        //private Traffic traffic;
+
         public Event(string title, string summary)
         {
             Title = title;
@@ -265,6 +267,8 @@ namespace TrafficWebScrape.Traffic
                     value = Road.GetRoad("Unknown");
                 }
                 road = value;
+
+                //if (traffic)
             }
         }
 

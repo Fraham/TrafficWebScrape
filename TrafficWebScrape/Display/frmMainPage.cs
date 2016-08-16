@@ -6,6 +6,7 @@ namespace TrafficWebScrape.Display
 {
     public partial class frmMainPage : Form
     {
+        private Traffic.Traffic traffic;
         public frmMainPage()
         {
             InitializeComponent();
@@ -22,7 +23,7 @@ namespace TrafficWebScrape.Display
         {
             loadTrafficData();
 
-            foreach(Road road in Road.Roads)
+            foreach(Road road in traffic.ProblemRoads)
             {
                 cmbRoadSelection.Items.Add(road.Name);
             }
@@ -30,7 +31,7 @@ namespace TrafficWebScrape.Display
         private void loadTrafficData()
         {
             dgvTraffic.Rows.Clear();
-            Traffic.Traffic traffic = new Traffic.Traffic();
+            traffic = new Traffic.Traffic();
 
             traffic.Process();
 
@@ -40,7 +41,7 @@ namespace TrafficWebScrape.Display
         private void btnFilterRoad_Click(object sender, EventArgs e)
         {
             dgvTraffic.Rows.Clear();
-            Traffic.Traffic traffic = new Traffic.Traffic();
+            traffic = new Traffic.Traffic();
 
             traffic.Process();
 
