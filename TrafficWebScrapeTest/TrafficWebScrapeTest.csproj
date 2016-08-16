@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="EventTests.cs" />
     <Compile Include="Highway\RoadTest.cs" />
+    <Compile Include="Problem\TrafficProblemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

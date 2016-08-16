@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TrafficWebScrape.Highway;
+using TrafficWebScrape.Problem;
 using TrafficWebScrape.Traffic;
 
 namespace TrafficWebScrape.Tests
@@ -16,7 +17,7 @@ namespace TrafficWebScrape.Tests
         private string event2timeToClear = "Unknown";
         private string event2returnToNormal = "Normal traffic conditions are expected between 17:00 and 17:15 on 11 August 2016.";
         private string event2lanesClosed = "Unknown";
-        private Problem.Problem event2reason = Problem.Problem.GetProblem("Congestion.");
+        private TrafficProblem event2reason = TrafficProblem.GetProblem("Congestion.");
         private Road event2road = Road.GetRoad("M62");
         private string event2startClear = "Unknown";
         private string event2endClear = "Unknown";
@@ -90,10 +91,10 @@ namespace TrafficWebScrape.Tests
         public void EventReason()
         {
             Assert.AreEqual(event2reason, event2.Reason);
-            Assert.AreEqual(Problem.Problem.GetProblem("Congestion."), event1.Reason);
+            Assert.AreEqual(TrafficProblem.GetProblem("Congestion."), event1.Reason);
 
             event3.Reason = null;
-            Assert.AreEqual(Problem.Problem.GetProblem("Unknown"), event3.Reason);
+            Assert.AreEqual(TrafficProblem.GetProblem("Unknown"), event3.Reason);
         }
 
         [TestMethod]
