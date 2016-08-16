@@ -8,21 +8,21 @@ using System.Xml;
 
 namespace TrafficWebScrape.Problem
 {
-    public class Problem
+    public class TrafficProblem
     {
         private string reason;
-        private static List<Problem> problems;
+        private static List<TrafficProblem> problems;
 
         private static string filename = "problems.xml";
 
-        public Problem(string reason)
+        public TrafficProblem(string reason)
         {
             Reason = reason;
         }
 
-        public static Problem NewRoad(string reasonName)
+        public static TrafficProblem NewRoad(string reasonName)
         {
-            Problem problem = new Problem(reasonName);
+            TrafficProblem problem = new TrafficProblem(reasonName);
 
             Problems.Add(problem);
             Save();
@@ -30,9 +30,9 @@ namespace TrafficWebScrape.Problem
             return problem;
         }
 
-        public static Problem GetProblem(string problemName)
+        public static TrafficProblem GetProblem(string problemName)
         {
-            foreach (Problem problem in Problems)
+            foreach (TrafficProblem problem in Problems)
             {
                 if (problem.Reason.Equals(problemName))
                 {
@@ -69,13 +69,13 @@ namespace TrafficWebScrape.Problem
             }
         }
 
-        public static List<Problem> Problems
+        public static List<TrafficProblem> Problems
         {
             get
             {
                 if (problems == null)
                 {
-                    problems = new List<Problem>();
+                    problems = new List<TrafficProblem>();
                 }
                 return problems;
             }
@@ -100,7 +100,7 @@ namespace TrafficWebScrape.Problem
                     case "Reason":
                         if (reader.Read())
                         {
-                            Problems.Add(new Problem(reader.Value.Trim()));
+                            Problems.Add(new TrafficProblem(reader.Value.Trim()));
                         }
                         break;
                 }
@@ -147,7 +147,7 @@ namespace TrafficWebScrape.Problem
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Problems");
 
-                foreach (Problem problem in Problems)
+                foreach (TrafficProblem problem in Problems)
                 {
                     writer.WriteStartElement("Problem");
 
@@ -169,7 +169,7 @@ namespace TrafficWebScrape.Problem
                 return false;
             }
 
-            Problem other = obj as Problem;
+            TrafficProblem other = obj as TrafficProblem;
 
             if (other == null)
             {
